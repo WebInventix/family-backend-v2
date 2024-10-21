@@ -33,16 +33,11 @@ const Childrens = mongoose.model('childrens', new Schema({
         enum: ['Male', 'Female', 'Other',null],
         default:null,
     },
-    added_by: {
+    family_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         default:null,
-    },
-    co_parent: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default:null,
-    },
+    }
 
           
 }, { timestamps: true }

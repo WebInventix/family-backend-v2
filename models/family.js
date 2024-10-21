@@ -15,6 +15,10 @@ const Family = mongoose.model('family', new Schema({
         type: String,
         default:null,
         ref: 'user'
+    },
+    color_code:{
+        type:String,
+        default:null
     }
           
 }, { timestamps: true }

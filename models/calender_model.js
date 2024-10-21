@@ -16,6 +16,11 @@ const Calendar_Schema = mongoose.model(
         required: [true, "Child id is required"],
         ref:"Childrens",
       },
+      family_id:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:[true,"Family id is required"],
+        ref:"family",
+      },
       name: {
         type: String,
         required: [true, "Event name is required"],
