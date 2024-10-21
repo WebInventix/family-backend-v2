@@ -468,9 +468,7 @@ const get_calendar_event_by_id = async (req, res) => {
   const { event_id } = req.params;
 
   try {
-    const job_post_variable = await Calendar_Schema.findById({
-      _id: event_id,
-    }).populate("family");
+    const job_post_variable = await Calendar_Schema.findById(event_id).populate("family_id");
     return res.json({
       message: "Got successfully!",
       data: job_post_variable,
