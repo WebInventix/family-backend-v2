@@ -148,7 +148,7 @@ const getFamily = async (req, res, next) => {
       families.map(async (family) => {
         const childrens = await Childrens.find({ family_id: family._id });
 
-        family.childrens = childrens.length ? childrens : [];
+        family.childrens = childrens.length > 0 ? childrens : [];
       })
     );
 
