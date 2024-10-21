@@ -483,6 +483,10 @@ const get_calendar_event_by_id = async (req, res) => {
 const get_calendar_event = async (req, res) => {
   const { family_id } = req.params;
 
+  if (!family_id) {
+    return res.status(404).json({ message: "Family Id  is required" });
+  }
+
   let family = await Family.findById(family_id);
   try {
     let job_post_variable;
