@@ -1,5 +1,6 @@
 const express = require("express");
 const UserController =require("../../controllers/user_controller/index")
+const Parenting =require("../../controllers/user_controller/parenting")
 
 const router = express.Router();
 
@@ -15,5 +16,11 @@ router.get('/get-create-event-by-id/:event_id',  UserController.get_calendar_eve
 router.delete('/delete-event/:event_id',  UserController.delete_calendar_event);
 router.put('/edit-event',  UserController.edit_calendar_event);
 
+//Parenting
+router.post('/create-parenting', Parenting.addParenting)
+router.get('/get-parenting-family/:family_id', Parenting.getParenting)
+router.get('/get-parenting-id/:id', Parenting.getParentingById)
+router.delete('/delete-parenting/:parent_id',  Parenting.deleteParenting);
+router.put('/edit-parenting',  Parenting.editParenting);
 
 module.exports = router;

@@ -16,6 +16,11 @@ const Parenting = mongoose.model(
         required: [false, "User id is required"],
         ref: "user"
       },
+      family_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, "Family id is required"],
+        ref: "family"
+      },
       child_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: [false, "User id is required"],
