@@ -490,7 +490,7 @@ const get_calendar_event = async (req, res) => {
     let job_post_variable;
 
     job_post_variable = await Calendar_Schema.find({
-      $or: [{ user_id: family.parent_1 }, { user_id: family.parent_2 }],
+      family_id,
     });
 
     return res.json({
