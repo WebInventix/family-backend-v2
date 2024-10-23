@@ -55,7 +55,7 @@ const addExpense = async (req,res) => {
     const { expense_id } = req.params;
   
     try {
-      const expenses = await Expenses.find({_id:expense_id}).populate('child_id').populate('user_id').populate('family_id');
+      const expenses = await Expenses.findById(expense_id).populate('child_id').populate('user_id').populate('family_id');
       return res.json({
         message: "Get Expense by id successfully!",
         data: expenses,

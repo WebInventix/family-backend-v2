@@ -26,7 +26,7 @@ router.put('/edit-parenting',  Parenting.editParenting);
 //Expenses
 router.post('/add-expense',  Expenses.addExpense);
 router.get('/get-expense/:family_id',  Expenses.getExpense);
-router.get('/get-expense/:expense_id',  Expenses.getExpenseById);
+router.get('/get-single-expense/:expense_id',  Expenses.getExpenseById);
 router.delete('/delete-expense/:expense_id',  Expenses.deleteExpense);
 router.put('/edit-expense',  Expenses.editExpense);
 
