@@ -1,7 +1,7 @@
 const express = require("express");
 const UserController =require("../../controllers/user_controller/index")
 const Parenting =require("../../controllers/user_controller/parenting")
-
+const Expenses = require("../../controllers/user_controller/expenses")
 const router = express.Router();
 
 
@@ -22,5 +22,12 @@ router.get('/get-parenting-family/:family_id', Parenting.getParenting)
 router.get('/get-parenting-id/:id', Parenting.getParentingById)
 router.delete('/delete-parenting/:parent_id',  Parenting.deleteParenting);
 router.put('/edit-parenting',  Parenting.editParenting);
+
+//Expenses
+router.post('/add-expense',  Expenses.addExpense);
+router.get('/get-expense/:family_id',  Expenses.getExpense);
+router.get('/get-expense/:expense_id',  Expenses.getExpenseById);
+router.delete('/delete-expense/:expense_id',  Expenses.deleteExpense);
+router.put('/edit-expense',  Expenses.editExpense);
 
 module.exports = router;
