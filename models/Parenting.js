@@ -49,6 +49,9 @@ const Parenting = mongoose.model(
       attachment: {
         type: String,
       },
+      color:{
+        type:String,
+      },
       status: {
         type: String,
         enum: ["Pending","Accepted","Rejected"],

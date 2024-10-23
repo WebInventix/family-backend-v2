@@ -439,6 +439,7 @@ const create_calendar_event = async (req, res) => {
       return res.status(404).json({ message: "Child not found" });
     }
 
+    let ucolor = generateRandomLightHexColorWithOpacity();
     const events = {
       user_id,
       child_id,
@@ -450,6 +451,7 @@ const create_calendar_event = async (req, res) => {
       notes,
       attachment,
       family_id: childInfo.family_id,
+      color: ucolor,
     };
     const events_data = await Calendar_Schema.create({
       ...events,

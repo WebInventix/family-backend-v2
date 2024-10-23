@@ -25,6 +25,9 @@ const addParenting = async (req,res) => {
     } = req.body;
   
     try {
+
+      let ucolor = generateRandomLightHexColorWithOpacity();
+
       const events = {
         user_id,
         startDate,
@@ -35,7 +38,8 @@ const addParenting = async (req,res) => {
         attachment,
         guardian,
         child_id,
-        family_id
+        family_id,
+        color: ucolor
       };
       const events_data = await Parenting.create({
         ...events,
@@ -139,6 +143,26 @@ const addParenting = async (req,res) => {
       return res.status(500).json({ message: error.message });
     }
   }
+
+
+  // Function to generate a random hex color code
+function generateRandomLightHexColorWithOpacity() {
+  const letters = "CDEF"; // Constrain to lighter colors
+  let color = "#";
+
+  // Generate a light color by using letters from C to F for each color channel
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
+  }
+
+  // Add an alpha value for opacity (optional)
+  // You can adjust the range from '00' to 'FF' where 'FF' is fully opaque.
+  const opacity = "80"; // Example opacity value (50% opacity)
+
+  // Combine the color with the opacity
+  return color + opacity;
+}
+
 module.exports = {
     addParenting,
     getParenting,

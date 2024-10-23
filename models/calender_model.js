@@ -48,6 +48,9 @@ const Calendar_Schema = mongoose.model(
       attachment: {
         type: String,
       },
+      color:{
+        type:String,
+      }
     },
     { timestamps: true }
   )
