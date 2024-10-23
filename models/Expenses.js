@@ -24,6 +24,12 @@ const Expenses = mongoose.model('expenses', new Schema({
         ref: 'childrens',
         default:null,
     },
+    family_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'family',
+        default:null,
+
+    },
     notes: {
         type: String,
         default:null,
