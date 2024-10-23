@@ -22,6 +22,11 @@ const Balance = mongoose.model('balance', new Schema({
         ref: 'user',
         default:null,
     },
+    family_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'family',
+        default:null,
+    },
     status: {
         type: String,
         enum: ["Pending","Accepted","Rejected"],

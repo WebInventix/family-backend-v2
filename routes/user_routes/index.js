@@ -30,4 +30,12 @@ router.get('/get-single-expense/:expense_id',  Expenses.getExpenseById);
 router.delete('/delete-expense/:expense_id',  Expenses.deleteExpense);
 router.put('/edit-expense',  Expenses.editExpense);
 
+//Balance
+router.post('/add-balance',  Expenses.addBalance);
+router.get('/get-balance/:family_id',  Expenses.getBalance);
+router.get('/get-single-balance/:balance_id',  Expenses.getBalanceById);
+router.delete('/delete-balance/:balance_id',  Expenses.deleteBalance);
+router.put('/edit-balance',  Expenses.editBalance);
+
+
 module.exports = router;
