@@ -44,4 +44,5 @@ router.post('/add-post',  Resource.addPost);
 router.post('/like-post',  Resource.postLikes);
 router.get('/get-all-post', Resource.getAllPostsWithLikes)
 router.post('/add-comment', Resource.addComment)
+router.get('/get-single-post/:id', Resource.getSinglePost)
 module.exports = router;

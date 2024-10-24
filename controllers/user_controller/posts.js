@@ -57,7 +57,7 @@ const postLikes = async (req, res) => {
 const getAllPostsWithLikes = async (req, res) => {
     try {
         // Fetch all posts and populate the 'likes' field with user details
-        const posts = await Posts.find().populate('likes', 'first_name email').populate('comments.commented_by', 'first_name email user_profile');; // Assuming 'username' and 'email' fields exist in the user model
+        const posts = await Posts.find().populate('likes', 'first_name email').populate('comments.commented_by', 'first_name email user_profile'); // Assuming 'username' and 'email' fields exist in the user model
 
         res.status(200).json({ success: true, posts });
     } catch (error) {
@@ -96,10 +96,27 @@ const addComment = async (req, res) => {
         res.status(500).json({ success: false, message: 'Error adding comment', error });
     }
 };
+
+const getSinglePost =  async (req, res) => {
+const {id} = req.params
+try {
+    const post = await Posts.findById(id).populate('likes', 'first_name email').populate('comments.commented_by', 'first_name email user_profile');
+    if (!post) {
+        return res.status(404).json({ success: false, message: 'Post not found'})
+    }
+     res.status(200).json({ success: true, post });
+    
+} catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching post', error})
+    
+}
+}
+
 module.exports = {
     addPost,
     postLikes,
     getAllPostsWithLikes,
-    addComment
+    addComment,
+    getSinglePost 
 
 };
