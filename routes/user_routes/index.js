@@ -2,6 +2,7 @@ const express = require("express");
 const UserController =require("../../controllers/user_controller/index")
 const Parenting =require("../../controllers/user_controller/parenting")
 const Expenses = require("../../controllers/user_controller/expenses")
+const Resource = require("../../controllers/user_controller/posts")
 const router = express.Router();
 
 
@@ -38,4 +39,9 @@ router.delete('/delete-balance/:balance_id',  Expenses.deleteBalance);
 router.put('/edit-balance',  Expenses.editBalance);
 
 
+//Posts
+router.post('/add-post',  Resource.addPost);
+router.post('/like-post',  Resource.postLikes);
+router.get('/get-all-post', Resource.getAllPostsWithLikes)
+router.post('/add-comment', Resource.addComment)
 module.exports = router;

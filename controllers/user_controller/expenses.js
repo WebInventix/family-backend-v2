@@ -64,7 +64,7 @@ const addExpense = async (req,res) => {
       })
     } catch (error) {
       return res.status(300).json({ message: error.message });
-      
+      l
     }
   }
 
