@@ -65,7 +65,13 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
         type: String,
         default:"",
         required:false
-    }
+    },
+    terms_policy: {
+        type: String,
+        enum: ['No', 'Yes'],
+        require:true,
+        default:"No"
+    },
 
           
 }, { timestamps: true }
