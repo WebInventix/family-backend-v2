@@ -41,7 +41,7 @@ const register_user = async (req, res, next) => {
     if (is_email_exist) {
       const error = {
         status: 409,
-        message: "User is already exist with this email!",
+        message: "User already exist with this email!",
       };
       return next(error);
     }
