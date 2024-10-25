@@ -1,47 +1,43 @@
 const mongoose = require('mongoose');
-
 const { Schema } = mongoose;
-const Childrens = mongoose.model('childrens', new Schema({
+
+const childrensSchema = new Schema({
     first_name: {
         type: String,
-        default:null,
+        default: null,
     },
     last_name: {
         type: String,
-        default:null,
+        default: null,
     },
     email: {
         type: String,
-        required: true
+        required: true,
     },
-   
     number: {
         type: String,
-        default:null,
+        default: null,
     },
     dob: {
         type: Date,
-        default:null,
+        default: null,
     },
     children_info: {
         type: String,
-        default:null,
-    
+        default: null,
     },
     gender: {
         type: String,
-        enum: ['Male', 'Female', 'Other',null],
-        default:null,
+        enum: ['Male', 'Female', 'Other', null],
+        default: null,
     },
     family_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default:null,
-    }
+        ref: 'User', // Ensure this references the correct model (probably 'Family' if it stores family info)
+        default: null,
+    },
+}, { timestamps: true });
 
-          
-}, { timestamps: true }
-))
+const Childrens = mongoose.model('Childrens', childrensSchema); // Capitalized model name
 
-
-module.exports = { Childrens }
+module.exports = { Childrens };

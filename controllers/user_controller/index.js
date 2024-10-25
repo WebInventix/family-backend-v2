@@ -36,6 +36,7 @@ const update_parent = async (req, res, next) => {
     findUser.address = address;
     findUser.dob = dob;
     findUser.gender = gender;
+    findUser.profile_status='Complete';
 
     // Save the updated user data
     await findUser.save({ validateBeforeSave: true });
@@ -80,6 +81,7 @@ const add_co_parent = async (req, res, next) => {
       dob,
       user_role: "Parent",
       password: secure_password,
+      profile_status:'Complete'
     });
 
     // Save the new user to the database
@@ -549,6 +551,72 @@ const edit_calendar_event = async (req, res) => {
   }
 };
 
+const family_dashboard = async (req, res) => {
+  const { user_id } = req;
+ 
+  try {
+    const families = await Family.find({
+      $or: [{ parent_1: user_id }, { parent_2: user_id }],
+    })
+      .populate("parent_1")
+      .populate("parent_2")
+      .lean();
+
+    if (!families || families.length === 0) {
+      return res.status(200).json({
+        data: [],
+      });
+    }
+    
+    const today = new Date().toISOString().slice(0, 10); // Get today's date in 'YYYY-MM-DD' format
+    const birthdays = []; // To hold children whose birthday is today
+
+    // Fetch children for each family concurrently
+    await Promise.all(
+      families.map(async (family) => {
+        
+        const childrens = await Childrens.find({ family_id: family._id });
+        // console.log(family)
+        family.childrens = childrens.length > 0 ? childrens : [];
+
+        if(childrens.length>0)
+        {
+          childrens.forEach((child) => {
+            const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
+            if (dob === today) {
+              birthdays.push(child); // Add to birthdays array if today is the child's birthday
+            }
+          });
+        }
+        // Check if any children's DOB matches today's date and add them to birthdays array
+        
+      })
+    );
+
+    let events = await Calendar_Schema.find({
+      $or: [{ user_id: user_id }, { user_id: user_id }],
+    }).populate('child_id')
+
+    return res.status(200).json({
+      status: "success",
+      familyCount, // Add family count
+      birthdays, // Add birthdays array to response
+      families,
+      events,
+    });
+  } catch (error) {
+    // Handle any errors during the process
+    return res.status(500).json({
+      status: "error",
+      message: "Error fetching family records",
+      data: null,
+      error: error.message,
+    });
+  }
+};
+
+
+
 module.exports = {
   update_parent,
   add_co_parent,
@@ -567,4 +635,5 @@ module.exports = {
   get_calendar_event_by_id,
   delete_calendar_event,
   edit_calendar_event,
+  family_dashboard
 };
