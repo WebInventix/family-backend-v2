@@ -24,8 +24,14 @@ const register_user = async (req, res, next) => {
       invited_by,
       first_name,
       last_name,
+      myrole
     
     } = body;
+
+    if(myrole!=='Parent')
+    {
+      return res.status(300).json({status:false,message:'These roles are not active yet!'})
+    }
     // 2. if error in validation -> return error via middleware
    if(!email || !password || !first_name || !last_name)
    {
