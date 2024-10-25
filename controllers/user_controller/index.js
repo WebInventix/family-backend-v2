@@ -552,8 +552,69 @@ const edit_calendar_event = async (req, res) => {
 };
 
 const family_dashboard = async (req, res) => {
-  const { user_id } = req;
+  // const { user_id } = req;
  
+  // try {
+  //   const families = await Family.find({
+  //     $or: [{ parent_1: user_id }, { parent_2: user_id }],
+  //   })
+  //     .populate("parent_1")
+  //     .populate("parent_2")
+  //     .lean();
+
+  //   if (!families || families.length === 0) {
+  //     return res.status(200).json({
+  //       data: [],
+  //     });
+  //   }
+    
+  //   const today = new Date().toISOString().slice(0, 10); // Get today's date in 'YYYY-MM-DD' format
+  //   const birthdays = []; // To hold children whose birthday is today
+
+  //   // Fetch children for each family concurrently
+  //   await Promise.all(
+  //     families.map(async (family) => {
+        
+  //       const childrens = await Childrens.find({ family_id: family._id });
+  //       // console.log(family)
+  //       family.childrens = childrens.length > 0 ? childrens : [];
+
+  //       if(childrens.length>0)
+  //       {
+  //         childrens.forEach((child) => {
+  //           const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
+  //           if (dob === today) {
+  //             birthdays.push(child); // Add to birthdays array if today is the child's birthday
+  //           }
+  //         });
+  //       }
+  //       // Check if any children's DOB matches today's date and add them to birthdays array
+        
+  //     })
+  //   );
+
+  //   let events = await Calendar_Schema.find({
+  //     $or: [{ user_id: user_id }, { user_id: user_id }],
+  //   }).populate('child_id')
+
+  //   return res.status(200).json({
+  //     status: "success",
+  //     familyCount, // Add family count
+  //     birthdays, // Add birthdays array to response
+  //     families,
+  //     events,
+  //   });
+  // } catch (error) {
+  //   // Handle any errors during the process
+  //   return res.status(500).json({
+  //     status: "error",
+  //     message: "Error fetching family records",
+  //     data: null,
+  //     error: error.message,
+  //   });
+  // }
+  const { user_id } = req;
+
   try {
     const families = await Family.find({
       $or: [{ parent_1: user_id }, { parent_2: user_id }],
@@ -564,45 +625,38 @@ const family_dashboard = async (req, res) => {
 
     if (!families || families.length === 0) {
       return res.status(200).json({
+        // status: "success",
+        // message: "No families found for this user",
         data: [],
       });
     }
-    
     const today = new Date().toISOString().slice(0, 10); // Get today's date in 'YYYY-MM-DD' format
     const birthdays = []; // To hold children whose birthday is today
-
     // Fetch children for each family concurrently
     await Promise.all(
       families.map(async (family) => {
-        
         const childrens = await Childrens.find({ family_id: family._id });
-        // console.log(family)
-        family.childrens = childrens.length > 0 ? childrens : [];
-
         if(childrens.length>0)
-        {
-          childrens.forEach((child) => {
-            const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
-            if (dob === today) {
-              birthdays.push(child); // Add to birthdays array if today is the child's birthday
-            }
-          });
-        }
-        // Check if any children's DOB matches today's date and add them to birthdays array
-        
+                {
+                  childrens.forEach((child) => {
+                    const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
+                    if (dob === today) {
+                      birthdays.push(child); // Add to birthdays array if today is the child's birthday
+                    }
+                  });
+                }
+        family.childrens = childrens.length > 0 ? childrens : [];
       })
     );
-
-    let events = await Calendar_Schema.find({
+       let events = await Calendar_Schema.find({
       $or: [{ user_id: user_id }, { user_id: user_id }],
     }).populate('child_id')
-
     return res.status(200).json({
       status: "success",
-      familyCount, // Add family count
-      birthdays, // Add birthdays array to response
-      families,
-      events,
+      // message: "Family records found",
+      data: families,
+      birthdays,
+      events
     });
   } catch (error) {
     // Handle any errors during the process
