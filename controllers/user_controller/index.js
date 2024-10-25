@@ -14,7 +14,7 @@ const stripe = Stripe(
 
 const update_parent = async (req, res, next) => {
   const { body, user_id } = req;
-  const { first_name, last_name, address, dob, gender } = body;
+  const { address, dob, gender } = body;
 
   try {
     // Fetch the user by ID
@@ -26,13 +26,11 @@ const update_parent = async (req, res, next) => {
     }
 
     // Validate required fields
-    if (!first_name || !last_name || !address || !dob || !gender) {
+    if (!address || !dob || !gender) {
       return res.status(400).json({ message: "Please fill all the fields" });
     }
 
     // Update the user profile with new values
-    findUser.first_name = first_name;
-    findUser.last_name = last_name;
     findUser.address = address;
     findUser.dob = dob;
     findUser.gender = gender;
@@ -671,6 +669,23 @@ const family_dashboard = async (req, res) => {
   }
 };
 
+const acceptPolicy = async (req,res)  => {
+const {user_id,body} = req;
+const {policy}  = body;
+try {
+  let user = await User_Auth_Schema.findById(user_id)
+  user.terms_policy = policy
+  await user.save()
+  return res.status(200).json({message:'Thankyou for accepting our policies'})
+  
+} catch (error) {
+  return res.status(500).json({message:error.message})
+  
+}
+
+
+
+}
 
 
 module.exports = {
@@ -691,5 +706,6 @@ module.exports = {
   get_calendar_event_by_id,
   delete_calendar_event,
   edit_calendar_event,
-  family_dashboard
+  family_dashboard,
+  acceptPolicy
 };
