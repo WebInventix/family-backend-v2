@@ -45,4 +45,7 @@ router.post('/like-post',  Resource.postLikes);
 router.get('/get-all-post', Resource.getAllPostsWithLikes)
 router.post('/add-comment', Resource.addComment)
 router.get('/get-single-post/:id', Resource.getSinglePost)
+
+//Dashboard
+router.get('/get-dashboard', UserController.family_dashboard)
 module.exports = router;
