@@ -22,11 +22,12 @@ const register_user = async (req, res, next) => {
       password,
       number,
       invited_by,
-    
+      first_name,
+      last_name,
     
     } = body;
     // 2. if error in validation -> return error via middleware
-   if(!email || !password || !number  || !invited_by )
+   if(!email || !password || !first_name || !last_name)
    {
     return res.status(400).json({ message: "Please fill all fields" });
    }
@@ -48,6 +49,8 @@ const register_user = async (req, res, next) => {
       password: secure_password,
       number: number,
       user_role: user_role,
+      first_name:first_name,
+      last_name:last_name
     };
 
     const save_user = await User_Auth_Schema.create({

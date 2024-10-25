@@ -10,6 +10,8 @@ router.post('/update-parent', UserController.update_parent)
 router.post('/invtie-co-parent',UserController.add_co_parent)
 router.get('/get-family', UserController.getFamily)
 router.post('/add-children',UserController.addChildren)
+router.post('/edit-children', UserController.editChildren)
+router.get('/get-children-by-id/:child_id',  UserController.getChildrenById);
 // calendat api
 router.post('/create-event',  UserController.create_calendar_event);
 router.get('/get-create-event/:family_id',  UserController.get_calendar_event);

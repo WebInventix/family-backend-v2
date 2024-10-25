@@ -36,6 +36,10 @@ const childrensSchema = new Schema({
         ref: 'User', // Ensure this references the correct model (probably 'Family' if it stores family info)
         default: null,
     },
+    additonal_info:{
+        type: String,
+        default: null,
+    }
 }, { timestamps: true });
 
 const Childrens = mongoose.model('Childrens', childrensSchema); // Capitalized model name
