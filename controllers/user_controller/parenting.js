@@ -63,7 +63,7 @@ const addParenting = async (req,res) => {
     var  job_post_variable;
     try{
         var family = await Family.findById(family_id)
-        console.log(family_id)
+
          job_post_variable = await Parenting.find({
           $or: [
             { user_id: family.parent_1 },
