@@ -59,6 +59,7 @@ const addParenting = async (req,res) => {
 
   const getParenting = async (req,res) => {
     const { family_id } = req.params;
+ 
     var  job_post_variable;
     try{
         var family = await Family.findById(family_id)
@@ -71,7 +72,7 @@ const addParenting = async (req,res) => {
         }).populate('user_id').populate('guardian').populate('child_id').populate('family_id');
     
       
-  
+        
       return res.json({
         message: "List all Parenting successfully!",
         data: job_post_variable,

@@ -21,7 +21,7 @@ const Expenses = mongoose.model('expenses', new Schema({
     },
     child_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'childrens',
+        ref: 'Childrens',
         default:null,
     },
     family_id:{
