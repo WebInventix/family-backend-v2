@@ -24,7 +24,7 @@ const ChangeRequest = mongoose.model(
       child_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: [false, "User id is required"],
-        ref: "childrens"
+        ref: "Childrens"
       },
       startDate: {
         type: Date,
