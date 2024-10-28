@@ -82,13 +82,15 @@ const register_user = async (req, res, next) => {
       email,
       user_role: user_role,
       number: number,
+      terms_policy:"No"
+
     };
     //console.log('my email', email)
     // await register_user_email(email);
 
     if(invited_by=="Yes")
       {
-        let codata = {user_id: save_user._id,user_role:user_role}
+        let codata = {user_id: save_user._id,user_role:user_role,terms_policy:"No"}
         return res.json({
           message: "Registered successfully! Please Add your Parent",
           data: codata,
