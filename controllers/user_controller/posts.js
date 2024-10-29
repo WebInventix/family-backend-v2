@@ -90,8 +90,8 @@ const addComment = async (req, res) => {
 
         // Save the updated post
         await post.save();
-
-        res.status(200).json({ success: true, message: 'Comment added successfully', post });
+        let  completePost = await Posts.findById(postId).populate('likes', 'first_name email').populate('comments.commented_by', 'first_name email user_profile');
+        res.status(200).json({ success: true, message: 'Comment added successfully', completePost });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error adding comment', error });
     }
