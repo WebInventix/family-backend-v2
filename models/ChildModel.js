@@ -34,7 +34,7 @@ const childrensSchema = new Schema({
     },
     gender: {
         type: String,
-        enum: ['Male', 'Female', 'Other', null],
+        enum: ['Male', 'Female', 'Other', null,""],
         default: null,
         required:false
     },
