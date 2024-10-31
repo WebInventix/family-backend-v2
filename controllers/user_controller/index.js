@@ -640,10 +640,14 @@ const family_dashboard = async (req, res) => {
         if(childrens.length>0)
                 {
                   childrens.forEach((child) => {
-                    const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
+                    if(child.dob && child.dob!=="")
+                    {
+                      const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
                     if (dob === today) {
                       birthdays.push(child); // Add to birthdays array if today is the child's birthday
                     }
+                    }
+                    
                   });
                 }
         family.childrens = childrens.length > 0 ? childrens : [];
