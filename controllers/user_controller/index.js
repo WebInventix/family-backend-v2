@@ -182,9 +182,10 @@ const addChildren = async (req, res, next) => {
     additonal_info
   } = body;
 
-  if (!first_name || !last_name || !email || !dob) {
+  if (!first_name) {
     return res.status(300).json({
-      message: "First Name , Last Name, Date of Birth Or Email is Missing",
+      message: "First Name is  required",
+
     });
   }
   // const validation_error = JOI_Validations.children_joi_validation(body);
