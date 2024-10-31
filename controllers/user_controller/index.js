@@ -693,6 +693,25 @@ try {
 }
 
 
+const re_invite = async (req,res) => {
+  const {parent_id} = req.body;
+  try {
+    let family = await Family_Schema.findById(parent_id);
+    let password = generateRandomPassword();
+    const secure_password = await Bcrypt_Service.bcrypt_hash_password(password);
+    family.password =password
+    await family.save()
+    await sendWelcomeEmailCoParent(family.email, family.first_name, password);
+    return res
+      .status(200)
+      .json({ message: "Invitation Sent to User", newUser: family });
+
+    
+  } catch (error) {
+    
+  }
+}
+
 module.exports = {
   update_parent,
   add_co_parent,
@@ -712,5 +731,6 @@ module.exports = {
   delete_calendar_event,
   edit_calendar_event,
   family_dashboard,
-  acceptPolicy
+  acceptPolicy,
+  re_invite
 };

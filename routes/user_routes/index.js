@@ -51,4 +51,8 @@ router.get('/get-single-post/:id', Resource.getSinglePost)
 
 //Dashboard
 router.get('/get-dashboard', UserController.family_dashboard)
+
+//Invite
+router.post('/re-invite',  UserController.re_invite)
+
 module.exports = router;
