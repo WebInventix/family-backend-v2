@@ -696,12 +696,12 @@ try {
 const re_invite = async (req,res) => {
   const {parent_id} = req.body;
   try {
-    let family = await Family.findById(parent_id);
+    let user = await User_Auth_Schema.findById(parent_id);
     let password = generateRandomPassword();
     const secure_password = await Bcrypt_Service.bcrypt_hash_password(password);
-    family.password =password
-    await family.save()
-    await sendWelcomeEmailCoParent(family.email, family.first_name, password);
+    user.password =secure_password
+    await user.save()
+    await sendWelcomeEmailCoParent(user.email, user.first_name, password);
     return res
       .status(200)
       .json({ message: "Invitation Sent to User", newUser: family });
