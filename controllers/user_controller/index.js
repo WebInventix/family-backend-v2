@@ -704,7 +704,7 @@ const re_invite = async (req,res) => {
     await sendWelcomeEmailCoParent(user.email, user.first_name, password);
     return res
       .status(200)
-      .json({ message: "Invitation Sent to User", newUser: family });
+      .json({ message: "Invitation Sent to User", newUser: user });
 
     
   } catch (error) {
