@@ -696,7 +696,7 @@ try {
 const re_invite = async (req,res) => {
   const {parent_id} = req.body;
   try {
-    let family = await Family_Schema.findById(parent_id);
+    let family = await Family.findById(parent_id);
     let password = generateRandomPassword();
     const secure_password = await Bcrypt_Service.bcrypt_hash_password(password);
     family.password =password
