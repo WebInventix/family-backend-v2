@@ -45,7 +45,7 @@ const childrensSchema = new Schema({
         required:false
     },
     additonal_info:{
-        type: String,
+        type: [String],
         default: null,
         required:false
     }
