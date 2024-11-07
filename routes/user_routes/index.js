@@ -14,6 +14,7 @@ router.post('/edit-children', UserController.editChildren)
 router.get('/get-children-by-id/:child_id',  UserController.getChildrenById);
 router.post('/accept-policy', UserController.acceptPolicy);
 router.get('/get-user-by-id/:id', UserController.userById)
+router.post('/edit-co-parent', UserController.editCoparent)
 // calendat api
 router.post('/create-event',  UserController.create_calendar_event);
 router.get('/get-create-event/:family_id',  UserController.get_calendar_event);
