@@ -44,10 +44,13 @@ const childrensSchema = new Schema({
         default: null,
         required:false
     },
-    additonal_info:{
-        type: [String],
-        default: null,
-        required:false
+    additional_info:{
+        type: [{
+            title: { type: String, default: null },
+            description: { type: String, default: null }
+        }],
+        default: [],
+        required:true
     }
 }, { timestamps: true });
 

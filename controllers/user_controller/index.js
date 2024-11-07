@@ -179,7 +179,7 @@ const addChildren = async (req, res, next) => {
     children_info,
     gender,
     family_id,
-    additonal_info
+    additional_info
   } = body;
 
   if (!first_name) {
@@ -219,7 +219,7 @@ const addChildren = async (req, res, next) => {
       children_info,
       gender,
       family_id: family_id,
-      additonal_info
+      additional_info
     });
 
     await child.save();
