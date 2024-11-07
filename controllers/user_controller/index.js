@@ -205,10 +205,10 @@ const addChildren = async (req, res, next) => {
   }
 
   try {
-    const coParent = await User_Auth_Schema.find({ added_by: user_id });
-    if (coParent.length > 0) {
-      var coParentId = coParent[0]._id;
-    }
+    // const coParent = await User_Auth_Schema.find({ added_by: user_id });
+    // if (coParent.length > 0) {
+    //   var coParentId = coParent[0]._id;
+    // }
 
     const child = new Childrens({
       first_name,
