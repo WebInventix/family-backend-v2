@@ -86,7 +86,7 @@ const add_co_parent = async (req, res, next) => {
     await newUser.save();
 
     // Generate a unique color code for the family
-    const uniqueColorCode = generateRandomLightHexColorWithOpacity();
+    const uniqueColorCode = generateRandomDarkHexColorWithOpacity();
 
     const family = new Family({
       parent_1: user_id,
@@ -123,6 +123,24 @@ function generateRandomLightHexColorWithOpacity() {
   // Combine the color with the opacity
   return color + opacity;
 }
+
+function generateRandomDarkHexColorWithOpacity() {
+  const letters = "012345"; // Constrain to darker colors
+  let color = "#";
+
+  // Generate a dark color by using letters from 0 to 5 for each color channel
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
+  }
+
+  // Add an alpha value for opacity (optional)
+  // You can adjust the range from '00' to 'FF' where 'FF' is fully opaque.
+  const opacity = "80"; // Example opacity value (50% opacity)
+
+  // Combine the color with the opacity
+  return color + opacity;
+}
+
 
 const getFamily = async (req, res, next) => {
   const { user_id } = req;
