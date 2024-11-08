@@ -26,7 +26,8 @@ const addParenting = async (req,res) => {
   
     try {
 
-      let ucolor = generateRandomLightHexColorWithOpacity();
+      // let ucolor = generateRandomLightHexColorWithOpacity();
+      let check_family = await Family.findById(family_id)
 
       const events = {
         user_id,
@@ -39,7 +40,7 @@ const addParenting = async (req,res) => {
         guardian,
         child_id,
         family_id,
-        color: ucolor
+        color: check_family.color_code
       };
       const events_data = await Parenting.create({
         ...events,
