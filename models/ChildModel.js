@@ -40,7 +40,7 @@ const childrensSchema = new Schema({
     },
     family_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Ensure this references the correct model (probably 'Family' if it stores family info)
+        ref: 'family', // Ensure this references the correct model (probably 'Family' if it stores family info)
         default: null,
         required:false
     },
