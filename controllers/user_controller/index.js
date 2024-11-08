@@ -51,6 +51,7 @@ const add_co_parent = async (req, res, next) => {
   const { body, user_id, user_data } = req;
   const { first_name, last_name, email, number, dob, gender, address } = body;
 
+  const color_codes = ["#e12106" , "#ffb900" , "#399600" , "#54c294" , "#0dd7bf" , "#95019c" , "#00f770"]
   if (!first_name || !last_name || !email) {
     return res
       .status(300)
@@ -85,14 +86,28 @@ const add_co_parent = async (req, res, next) => {
     // Save the new user to the database
     await newUser.save();
 
-    // Generate a unique color code for the family
-    const uniqueColorCode = generateRandomDarkHexColorWithOpacity();
+    let last_family = await Family.find({parent_1:user_id})
+    var new_color_code=null
+    if(last_family.length > 0){
+      var get_color_code = last_family[last_family.length-1].color_code
+      var get_color_index = color_codes.indexOf(get_color_code)
+      if(get_color_index==6)
+      {
+        new_color_code = color_codes[0]
+      }
+      else
+      {
+        new_color_code = color_codes[get_color_index+1]
+      }
+    
+    }
+
 
     const family = new Family({
       parent_1: user_id,
       parent_2: newUser._id,
       name: `${user_data.first_name}-${newUser.first_name}`,
-      color_code: uniqueColorCode,
+      color_code: new_color_code,
     });
     await family.save();
     await sendWelcomeEmailCoParent(email, first_name, password);
