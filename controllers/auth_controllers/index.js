@@ -5,12 +5,32 @@ const User_DTO = require("../../dto/user_dto");
 const { JWT_Generate_Token_Handle } = require("../../services/jwt_services");
 const Auth_Token_DTO = require("../../dto/auth_tokens_dto");
 const { User_Tokens_Schema } = require("../../models/user_tokens_model");
+const { EmailToken } = require("../../models/emailToken");
 const { generateOtp } = require("../../utils/generate_OTP");
+const { welcomeNewUser } = require("../../utils/email");
 const {
   reset_password_email, register_user_email
 } = require("../../utils/email_transport_config");
 const verifyEmailSchema = require("../../models/verification/verifyEmailTokenSchema");
+const crypto = require('crypto');
 
+
+
+const confirm_email = async (req, res) => {
+  const {token} = req.query;
+  try {
+    console.log(token)
+    let verify = await EmailToken.findOne({token:token})
+    if(!verify) return res.status(404).json({message: "Email token not found"})
+      const user = await User_Auth_Schema.findById(verify.user)
+      user.email_verified = true
+      await user.save()
+      res.status(200).json({message: "Email verified successfully"})
+  } catch (error) {
+    res.status(500).json({message: "Internal server error", error: error.message})
+  }
+}
+const generateToken = () => crypto.randomBytes(32).toString('hex');
 const register_user = async (req, res, next) => {
 
 
@@ -88,6 +108,14 @@ const register_user = async (req, res, next) => {
     //console.log('my email', email)
     // await register_user_email(email);
 
+    let tok = generateToken();
+    let addToken = await EmailToken.create({
+      user: save_user._id,
+      token:tok
+    })
+    let clink = `https://family-plan-8f918.web.app/confirm-email?token=${tok}`
+    await welcomeNewUser(save_user.email,save_user.first_name,clink)
+
     if(invited_by=="Yes")
       {
         let codata = {user_id: save_user._id,user_role:user_role,terms_policy:"No"}
@@ -99,7 +127,7 @@ const register_user = async (req, res, next) => {
         });
       }
     return res.json({
-      message: "Registered successfully!",
+      message: "Registered successfully! A confirmation link has been sent to your email",
       data: send_data,
       tokens: tokens_dto,
     });
@@ -361,5 +389,6 @@ module.exports = {
   reset_user_password_request,
   verify_OTP_and_create_password,
   verify_reset_password_OTP,
+  confirm_email
 
 };

@@ -46,6 +46,10 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
         default:false
         //required:true
     },
+    email_verified: {
+        type: Boolean,
+        default: false
+    },
     package: {
         type: String,
         enum: ['Beta','Trail','Promotional Deal','3-Month-Membership','Yearly','Lifetime'],

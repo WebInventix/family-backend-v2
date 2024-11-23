@@ -668,9 +668,10 @@ const family_dashboard = async (req, res) => {
     const today = new Date().toISOString().slice(0, 10); // Get today's date in 'YYYY-MM-DD' format
     const birthdays = []; // To hold children whose birthday is today
     // Fetch children for each family concurrently
+    console.log(user_data)
     if(user_data.dob && user_data.dob !== ""){
       
-      let mybirthday =  user_data.toISOString().slice(0, 10);
+      let mybirthday =  user_data.dob.toISOString().slice(0, 10);
       if(mybirthday==today)
       {
         birthdays.push(user_data);
