@@ -695,7 +695,7 @@ const family_dashboard = async (req, res) => {
                   });
                 }
         family.childrens = childrens.length > 0 ? childrens : [];
-        let other_member = family.parent_1 === user_id ? family.parent_2 : family.parent_1;
+        let other_member = family.parent_1._id == user_id ? family.parent_2 : family.parent_1;
         if(other_member.dob && other_member.dob!=="")
         {
           const dob_other = other_member.dob.toISOString().slice(0, 10); // Convert
