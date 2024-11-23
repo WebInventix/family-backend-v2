@@ -51,4 +51,38 @@ Your Company Name`,
   }
 };
 
-module.exports = { sendWelcomeEmailCoParent, invite_referral_email };
+const welcomeNewUser = async (to, firstName, confirmationLink) => {
+  const mailOptions = {
+    from: process.env.MAIL_USERNAME,
+    to,
+    subject: "Welcome to Family Plan! Confirm Your Email",
+    html: `
+      <p>Hi ${firstName},</p>
+      <p>Welcome to <strong>Family Plan</strong>! We’re thrilled to have you join our community, where planning and organizing for your family becomes effortless and fun.</p>
+      <p>To get started, please confirm your email address by clicking the link below:</p>
+      <a href="${confirmationLink}" style="display:inline-block; padding:10px 20px; color:#fff; background-color:#007BFF; text-decoration:none; border-radius:5px;">Confirm My Email</a>
+      <p>If the button doesn’t work, copy and paste the following link into your browser:</p>
+      <p><a href="${confirmationLink}">${confirmationLink}</a></p>
+      <p><strong>What’s next?</strong></p>
+      <ul>
+        <li>Explore all the features of Family Plan.</li>
+        <li>Start organizing your family’s plans with ease.</li>
+        <li>Enjoy tools tailored to simplify your day-to-day life.</li>
+      </ul>
+      <p>If you have any questions or need assistance, feel free to reply to this email or contact us at <a href="mailto:support@familyplan.com">support@familyplan.com</a>.</p>
+      <p>Thanks for joining us! We're excited to help you make family planning easier than ever.</p>
+      <p>Warm regards,</p>
+      <p>The Family Plan Team</p>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Welcome email with confirmation link sent to ${to}`);
+  } catch (error) {
+    console.error(`Error sending email to ${to}: `, error);
+  }
+}
+
+
+module.exports = { sendWelcomeEmailCoParent, invite_referral_email , welcomeNewUser};

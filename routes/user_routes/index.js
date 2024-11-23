@@ -57,4 +57,7 @@ router.get('/get-dashboard', UserController.family_dashboard)
 //Invite
 router.post('/re-invite',  UserController.re_invite)
 
+//More Family Members
+router.post('/')
+
 module.exports = router;

@@ -1,6 +1,30 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+
+const otherFamily = new Schema({
+    user_id: {
+        type: Schema.Types.ObjectId,
+        ref:'user',
+        required: true
+    },
+    relation: {
+        type: String,
+        enum: [
+            'Sibling', 'Spouse',
+            'Grandparent', 'Grandchild', 'Aunt/Uncle', 'Niece/Nephew', 
+            'Cousin', 'Step-Parent', 'Step-Sibling', 'In-Law', 'Guardian', 'Foster Parent'
+        ],
+        required: true
+    },
+    created_at: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+
+
 const Family = mongoose.model('family', new Schema({
     name: {
         type: String,
@@ -19,7 +43,8 @@ const Family = mongoose.model('family', new Schema({
     color_code:{
         type:String,
         default:null
-    }
+    },
+    other_family: [otherFamily],  // Array of comments
           
 }, { timestamps: true }
 ))

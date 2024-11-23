@@ -648,7 +648,7 @@ const family_dashboard = async (req, res) => {
   //     error: error.message,
   //   });
   // }
-  const { user_id } = req;
+  const { user_id , user_data} = req;
 
   try {
     const families = await Family.find({
@@ -668,6 +668,16 @@ const family_dashboard = async (req, res) => {
     const today = new Date().toISOString().slice(0, 10); // Get today's date in 'YYYY-MM-DD' format
     const birthdays = []; // To hold children whose birthday is today
     // Fetch children for each family concurrently
+    console.log(user_data)
+    if(user_data.dob && user_data.dob !== ""){
+      
+      let mybirthday =  user_data.dob.toISOString().slice(0, 10);
+      if(mybirthday==today)
+      {
+        birthdays.push(user_data);
+      }
+    
+    }
     await Promise.all(
       families.map(async (family) => {
         const childrens = await Childrens.find({ family_id: family._id });
@@ -676,8 +686,8 @@ const family_dashboard = async (req, res) => {
                   childrens.forEach((child) => {
                     if(child.dob && child.dob!=="")
                     {
-                      const dob = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
-                    if (dob === today) {
+                      const dob_child = child.dob.toISOString().slice(0, 10); // Convert DOB to 'YYYY-MM-DD'
+                    if (dob_child === today) {
                       birthdays.push(child); // Add to birthdays array if today is the child's birthday
                     }
                     }
@@ -685,6 +695,14 @@ const family_dashboard = async (req, res) => {
                   });
                 }
         family.childrens = childrens.length > 0 ? childrens : [];
+        let other_member = family.parent_1 === user_id ? family.parent_2 : family.parent_1;
+        if(other_member.dob && other_member.dob!=="")
+        {
+          const dob_other = other_member.dob.toISOString().slice(0, 10); // Convert
+          if (dob_other === today) {
+            birthdays.push(other_member); // Add to birthdays array if today is the other member's birthday
+            }
+        }
       })
     );
        let events = await Calendar_Schema.find({
