@@ -175,13 +175,19 @@ const getFamily = async (req, res, next) => {
         data: [],
       });
     }
-
+    const birthday = [];
     // Fetch children for each family concurrently
     await Promise.all(
       families.map(async (family) => {
         const childrens = await Childrens.find({ family_id: family._id });
 
         family.childrens = childrens.length > 0 ? childrens : [];
+        if(childrens.length>0)
+        {
+          childrens.map(async (child)=>{
+            birthday.push(child)
+          })
+        }
       })
     );
 
@@ -189,6 +195,7 @@ const getFamily = async (req, res, next) => {
       status: "success",
       // message: "Family records found",
       data: families,
+      birthday:birthday
     });
   } catch (error) {
     // Handle any errors during the process
