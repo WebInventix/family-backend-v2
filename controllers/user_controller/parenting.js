@@ -69,7 +69,8 @@ const addParenting = async (req,res) => {
           $or: [
             { user_id: family.parent_1 },
             { user_id: family.parent_2 }
-          ]
+          ],
+          family_id: family_id
         }).populate('user_id').populate('guardian').populate('child_id').populate('family_id');
     
       
