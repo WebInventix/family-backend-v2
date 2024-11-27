@@ -38,7 +38,7 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
     user_role: {
         type: String,
         enum: ['Parent','Lawyer', 'Judge', 'Teacher'],
-        require:true
+        require:false
     },
 
     verified: {
