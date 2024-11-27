@@ -6,16 +6,20 @@ const otherFamily = new Schema({
     user_id: {
         type: Schema.Types.ObjectId,
         ref:'user',
-        required: true
+        required: false
     },
     relation: {
         type: String,
         enum: [
-            'Sibling', 'Spouse',
+            'Sibling', 'Spouse', 'Co-Parent',
             'Grandparent', 'Grandchild', 'Aunt/Uncle', 'Niece/Nephew', 
             'Cousin', 'Step-Parent', 'Step-Sibling', 'In-Law', 'Guardian', 'Foster Parent'
         ],
         required: true
+    },
+    name: {
+        type: String,
+        required: false,
     },
     created_at: {
         type: Date,
