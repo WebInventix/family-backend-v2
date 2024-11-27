@@ -8,7 +8,7 @@ const addCP = async (req, res) => {
     try {
         const { family_id, first_name, email, last_name } = req.body;
         const { user_id } = req
-
+        var coparent=null
         const check_user = await User_Auth_Schema.findOne({ email });
         if (check_user) {
             let bridge = await new CPBridge({
@@ -17,7 +17,7 @@ const addCP = async (req, res) => {
             })
             await bridge.save()
 
-
+            coparent = check_user
         }
         else
         {
@@ -33,8 +33,9 @@ const addCP = async (req, res) => {
                     cp_id: coP._id
                 })
             await bridge.save()
+            coparent = coP
         }
-        return res.status(200).json({message:'Co-Parent Added Successfully'})
+        return res.status(200).json({message:'Co-Parent Added Successfully',coparent:coparent})
     } catch (error) {
         return res.status(500).json({ message: error.message})    
     }
