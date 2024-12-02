@@ -1,5 +1,7 @@
 const { User_Auth_Schema } = require("../../models/user_auth_model");
 const { CPBridge } = require("../../models/bridgeCoParent");
+const {relatives } = require("../../models/relatives")
+const { RelativeBridge } = require("../../models/bridgeRelatives")
 const { Family } = require("../../models/family");
 const { Posts } = require("../../models/posts");
 
@@ -53,6 +55,36 @@ const getCp = async (req, res) => {
     }
 }
 
+
+const addRelative = async (req,res) => {
+    try {
+        const { user_id } = req;
+        const { first_name,last_name,email,relation } = req.body;
+        const check_user = await User_Auth_Schema.findOne({ email });
+        const check_relative = await Relative.findOne({ email });
+        if (check_user && check_relative) {
+            let bridge = await new RelativeBridge({
+                r_id:check_relative._id,
+                add_by: user_id
+            })
+            await bridge.save();
+            
+        } else if (check_user && !check_relative) {
+            let relative = new Relative()
+            relative.first_name = first_name
+            relative.last_name = last_name
+            relative.email = email
+            relative.relation = relation
+            relative.user_id= check_user._id
+        } else if (!check_user && check_relative) {
+        
+        }
+        
+    } catch (error) {
+        return res.status(500).json({ message: error.message})
+        
+    }
+}
 
 module.exports = {
     addCP,
