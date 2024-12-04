@@ -28,10 +28,10 @@ const relatives = mongoose.model(
       relation:{
         type: String,
         enum: [
-            'Sibling', 'Spouse', 'Co-Parent',
-            'Grandparent', 'Grandchild', 'Aunt/Uncle', 'Niece/Nephew', 
-            'Cousin', 'Step-Parent', 'Step-Sibling', 'In-Law', 'Guardian', 'Foster Parent'
-        ],
+              'Sibling', 'Spouse', 'Co-Parent',
+              'Grandparent', 'Grandchild', 'Aunt/Uncle', 'Niece/Nephew', 
+              'Cousin', 'Step-Parent', 'Step-Sibling', 'In-Law', 'Guardian', 'Foster Parent'
+            ],
         required: true
       }
     },
