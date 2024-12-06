@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
@@ -5,10 +6,12 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
     first_name: {
         type: String,
         default:null,
+        required:false
     },
     last_name: {
         type: String,
         default:null,
+        required:false
     },
     email: {
         type: String,
@@ -16,19 +19,23 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
     },
     password: {
         type: String,
+        required:true
        
     },
     number: {
         type: String,
         default:null,
+        required:false
     },
     dob: {
         type: Date,
         default:null,
+        required:false
     },
     address: {
         type: String,
         default:null,
+        required:false
     },
     gender: {
         type: String,

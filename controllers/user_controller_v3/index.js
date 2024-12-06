@@ -1,7 +1,8 @@
 const { User_Auth_Schema } = require("../../models/user_auth_model");
 const {Members} = require("../../models/v3/members")
- 
-
+const { generateRandomPassword } = require("../../utils/passwordGenerator");
+const { sendWelcomeEmailCoParent } = require("../../utils/email");
+const { Bcrypt_Service } = require("../../services/bcrypt_services");
 
 const addChild = async (req, res) => {
 const {user_id, body} = req;
@@ -165,6 +166,82 @@ const viewMember = async (req,res) => {
         return res.status(500).json({ message: error.message})
     }
 }
+
+
+
+const addCoparent = async (req,res) => {
+  const {user_id,body} = req 
+  const {first_name, last_name,email, color_code } = body
+  try {
+    if(!email)
+    {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const existingUser = await User_Auth_Schema.findOne({ email })
+    if(existingUser)
+    {
+      const co_parent = new Members({
+        user_id:existingUser._id,
+        first_name,
+        last_name,
+        email,
+        color_code,
+        added_by:user_id,
+        relation:'Co-Parent'
+      });
+  
+      await relative.save();
+      
+
+    }
+    else
+    {
+      let password = generateRandomPassword();
+      const secure_password = await Bcrypt_Service.bcrypt_hash_password(password);
+      const newUser = new User_Auth_Schema({
+        email,
+        first_name,
+        last_name,
+        user_role: "Parent",
+        password: secure_password,
+      });
+
+      await newUser.save();
+      await sendWelcomeEmailCoParent(email, first_name, password);
+      const co_parent = new Members({
+        user_id: newUser._id,
+        first_name,
+        last_name,
+        email,
+        color_code,
+        added_by:user_id,
+        relation:'Co-Parent'
+      })
+      
+      await co_parent.save();
+      return res
+        .status(200)
+        .json({ message: "Co-Parent Added Successfully & Invitation sent to email", co_parent: co_parent });
+    }
+    
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+  }
+
+}
+
+
+const listCp = async (req,res) => {
+  const {user_id} = req
+  try {
+    const co_parents = await Members.find({added_by:user_id,relation:'Co-Parent'})
+    return res.status(200).json({co_parents})
+    
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
+    
+  }
+}
 module.exports = {
     addChild,
     updateChild,
@@ -172,6 +249,8 @@ module.exports = {
     addRelative,
     updateRelative,
     listRelative,
-    viewMember
+    viewMember,
+    addCoparent,
+    listCp
 
 };
