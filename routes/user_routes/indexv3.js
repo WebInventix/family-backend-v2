@@ -20,7 +20,7 @@ router.get('/relative-list', UserController.listRelative);
 
 //Add Co-Parent
 router.post('/add-coparent-member', UserController.addCoparent)
-router.post('/list-co-parent', UserController.listCp)
+router.get('/list-co-parent', UserController.listCp)
 
 
 //Add Family
