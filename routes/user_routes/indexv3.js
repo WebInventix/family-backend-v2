@@ -15,4 +15,11 @@ router.get('/child-list', UserController.listChildren);
 router.post('/add-relative', UserController.addRelative);
 router.post('/update-relative/:relative_id', UserController.updateRelative);
 router.get('/relative-list', UserController.listRelative);
+
+
+//Add Co-Parent
+router.post('/add-coparent-member', UserController.addCoparent)
+router.post('/list-co-parent', UserController.listCp)
+
+
 module.exports = router;
