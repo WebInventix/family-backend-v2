@@ -26,8 +26,8 @@ router.post('/add-coparent-member', UserController.addCoparent)
 router.get('/list-co-parent', UserController.listCp)
 
 
-//Add Family
+//Family
 router.post('/add-family', Family.addFamily)
 router.get('/family-list', Family.listFamilies)
-
+router.get('/get-family', Family.getFamily)
 module.exports = router;

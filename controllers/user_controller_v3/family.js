@@ -63,8 +63,59 @@ const listFamilies = async (req, res) => {
     }
   };
   
+
+
+  const getFamily = async (req, res) => {
+    const { user_id } = req;
+  
+    try {
+      // Step 1: Find all member IDs associated with the user_id
+      const members = await Members.find({ user_id }).lean();
+  
+      // Step 2: Extract the member IDs
+      const memberIds = members.map(member => member._id);
+  
+      // Step 3: Build the query
+      let query = {};
+  
+      if (memberIds.length > 0) {
+        // User is associated with multiple members; fetch families where:
+        // - created_by = user_id
+        // - OR member._id is in co_parents, relatives, or children
+        query = {
+          $or: [
+            { created_by: user_id },
+            { co_parents: { $in: memberIds } },
+            { relatives: { $in: memberIds } },
+            { children: { $in: memberIds } },
+          ],
+        };
+      } else {
+        // User is not associated with any member; fetch families created by user_id
+        query = { created_by: user_id };
+      }
+  
+      // Step 4: Fetch families with population
+      const families = await Families.find(query)
+        .populate('created_by', 'first_name last_name email')
+        .populate('co_parents', 'first_name last_name relation')
+        .populate('relatives', 'first_name last_name relation')
+        .populate('children', 'first_name last_name relation')
+        .lean();
+  
+      return res.json({
+        message: 'Families fetched successfully',
+        data: families,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
 module.exports = {
 addFamily,
-listFamilies
+listFamilies,
+getFamily
 
 };
