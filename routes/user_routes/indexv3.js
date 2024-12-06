@@ -7,6 +7,9 @@ const router = express.Router();
 //Member View
 router.get('/view-member/:id', UserController.viewMember)
 
+//Get Members
+router.get('/get-members', UserController.getMembers)
+
 //Add Children
 router.post('/add-child', UserController.addChild);
 router.post('/update-child/:child_id', UserController.updateChild);
@@ -25,6 +28,6 @@ router.get('/list-co-parent', UserController.listCp)
 
 //Add Family
 router.post('/add-family', Family.addFamily)
-router.post('/family-list', Family.listFamilies)
+router.get('/family-list', Family.listFamilies)
 
 module.exports = router;
