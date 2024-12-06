@@ -242,6 +242,34 @@ const listCp = async (req,res) => {
     
   }
 }
+
+
+const getMembers = async (req, res) => {
+  const { user_id } = req;
+
+  try {
+    // Find members where added_by equals user_id
+    const members = await Members.find({ added_by: user_id }).lean();
+
+    // Group members based on their relation
+    const groupedMembers = {
+      co_parents: members.filter((member) => member.relation === 'Co-Parent'),
+      children: members.filter((member) => member.relation === 'Child'),
+      relatives: members.filter(
+        (member) => member.relation !== 'Co-Parent' && member.relation !== 'Child'
+      ),
+    };
+
+    return res.json({
+      message: 'Members fetched successfully',
+      data: groupedMembers,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
     addChild,
     updateChild,
@@ -251,6 +279,7 @@ module.exports = {
     listRelative,
     viewMember,
     addCoparent,
-    listCp
+    listCp,
+    getMembers
 
 };
