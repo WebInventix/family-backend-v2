@@ -5,9 +5,9 @@ const {Families} = require("../../models/v3/families")
 
 const addFamily = async (req,res) => {
     const {user_id,body} = req
-    const {family_name, co_parents, relatives,children} = body
+    const {family_name, co_parents, relatives,children,color_code} = body
     try {
-        const family = await Families.create({created_by:user_id,family_name,co_parents,relatives,children})
+        const family = await Families.create({created_by:user_id,family_name,co_parents,relatives,children,color_code})
         return res.json({message:"Family Added Successfully",data:family})
     } catch (error) {
         return res.status(500).json({message:error.message})
