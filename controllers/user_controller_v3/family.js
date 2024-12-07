@@ -28,7 +28,7 @@ const listFamilies = async (req, res) => {
         })
         .populate({
           path: 'co_parents',
-          select: '_id first_name last_name email user_id',
+          select: '_id first_name last_name email user_id relation',
           populate: {
             path: 'user_id',
             select: '_id name email',
@@ -36,7 +36,7 @@ const listFamilies = async (req, res) => {
         })
         .populate({
           path: 'children',
-          select: '_id first_name last_name email user_id',
+          select: '_id first_name last_name email user_id relation',
           populate: {
             path: 'user_id',
             select: '_id name email',
@@ -44,7 +44,7 @@ const listFamilies = async (req, res) => {
         })
         .populate({
           path: 'relatives',
-          select: '_id first_name last_name email user_id',
+          select: '_id first_name last_name email user_id relation',
           populate: {
             path: 'user_id',
             select: '_id name email',
