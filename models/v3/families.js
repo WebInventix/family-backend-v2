@@ -8,6 +8,10 @@ const Families = mongoose.model('families', new Schema({
         required: true,
         trim: true,
       },
+      color_code:{
+        type:String,
+        required:true,
+      },
       created_by:{
         type: Schema.Types.ObjectId,
           ref: 'user',
