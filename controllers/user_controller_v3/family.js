@@ -18,14 +18,7 @@ const addFamily = async (req,res) => {
 const listFamilies = async (req, res) => {
     try {
       const families = await Families.find()
-        .populate({
-          path: 'created_by',
-          select: '_id first_name last_name email user_id',
-          populate: {
-            path: 'user_id',
-            select: '_id name email',
-          },
-        })
+        .populate('created_by','_id first_name last_name email')
         .populate({
           path: 'co_parents',
           select: '_id first_name last_name email user_id relation',
