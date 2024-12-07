@@ -10,7 +10,7 @@ const Families = mongoose.model('families', new Schema({
       },
       created_by:{
         type: Schema.Types.ObjectId,
-          ref: 'members',
+          ref: 'user',
           required: true,
       },
       co_parents: [
