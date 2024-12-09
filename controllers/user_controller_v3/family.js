@@ -91,9 +91,9 @@ const listFamilies = async (req, res) => {
       // Step 4: Fetch families with population
       const families = await Families.find(query)
         .populate('created_by', 'first_name last_name email')
-        .populate('co_parents', 'first_name last_name relation')
-        .populate('relatives', 'first_name last_name relation')
-        .populate('children', 'first_name last_name relation')
+        .populate('co_parents', '_id first_name last_name email user_id relation color_code')
+        .populate('relatives', '_id first_name last_name email user_id relation color_code')
+        .populate('children', '_id first_name last_name email user_id relation dob gender info additional_info color_code')
         .lean();
   
       return res.json({
