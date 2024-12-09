@@ -35,7 +35,7 @@ router.get('/get-family', Family.getFamily)
 
 //Events
 router.post('/add-event', addEvents)
-router.get('/list-events', listEvents)
+router.get('/list-events/:family_id', listEvents)
 router.get('/event/:id', eventById)
 
 

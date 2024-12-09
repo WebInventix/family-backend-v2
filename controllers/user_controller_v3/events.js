@@ -36,9 +36,10 @@ const addEvents = async (req,res) => {
 }
 
 const listEvents = async (req,res) => {
-    const {user_id} = req
+    const {family_id} = req.params
     try {
-        const events = await Events.find({user_id}).populate('user_id').populate('children').populate('relative').populate('family_id')
+        
+        const events = await Events.find({family_id}).populate('user_id').populate('children').populate('relative').populate('family_id')
         return res.status(200).json({success:true,events})
         
     } catch (error) {
