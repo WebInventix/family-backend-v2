@@ -2,6 +2,7 @@ const express = require("express");
 //controller call 
 const UserController = require('../../controllers/user_controller_v3/index')
 const Family  = require('../../controllers/user_controller_v3/family')
+const {addEvents, eventById,listEvents} = require('../../controllers/user_controller_v3/events')
 const router = express.Router();
 
 //Member View
@@ -30,4 +31,12 @@ router.get('/list-co-parent', UserController.listCp)
 router.post('/add-family', Family.addFamily)
 router.get('/family-list', Family.listFamilies)
 router.get('/get-family', Family.getFamily)
+
+
+//Events
+router.post('/add-event', addEvents)
+router.get('/list-events', listEvents)
+router.get('/event/:id', eventById)
+
+
 module.exports = router;
