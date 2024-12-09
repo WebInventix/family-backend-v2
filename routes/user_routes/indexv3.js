@@ -2,7 +2,7 @@ const express = require("express");
 //controller call 
 const UserController = require('../../controllers/user_controller_v3/index')
 const Family  = require('../../controllers/user_controller_v3/family')
-const {addEvents, eventById,listEvents, updateEvent} = require('../../controllers/user_controller_v3/events')
+const {addEvents, eventById,listEvents, updateEvent, deleteEvent} = require('../../controllers/user_controller_v3/events')
 const router = express.Router();
 
 //Member View
@@ -39,6 +39,7 @@ router.post('/add-event', addEvents)
 router.get('/list-events/:family_id', listEvents)
 router.get('/event/:id', eventById)
 router.post('/update-event/:id', updateEvent)
+router.delete('/delete-event/:id', deleteEvent)
 
 //Dashboard
 router.get('/get-dashboard', UserController.getDashboard)
