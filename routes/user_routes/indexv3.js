@@ -38,5 +38,9 @@ router.post('/add-event', addEvents)
 router.get('/list-events/:family_id', listEvents)
 router.get('/event/:id', eventById)
 
+//Dashboard
+router.get('/get-dashboard', UserController.getDashboard)
+
+
 
 module.exports = router;
