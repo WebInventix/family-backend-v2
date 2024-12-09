@@ -3,6 +3,8 @@ const {Members} = require("../../models/v3/members")
 const { generateRandomPassword } = require("../../utils/passwordGenerator");
 const { sendWelcomeEmailCoParent } = require("../../utils/email");
 const { Bcrypt_Service } = require("../../services/bcrypt_services");
+const { Families } = require("../../models/v3/families");
+const { Events } = require("../../models/v3/Events");
 
 const addChild = async (req, res) => {
 const {user_id, body} = req;
@@ -270,6 +272,39 @@ const getMembers = async (req, res) => {
     });
   }
 };
+
+const getDashboard = async (req, res) => {
+  const { user_id } = req;
+  try {
+    // Fetch families data
+    const families = await Families.find({ created_by: user_id })
+      .populate('created_by')
+      .populate('co_parents')
+      .populate('children')
+      .populate('relatives');
+
+    // Get today's date in UTC
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0); // Set time to the start of the day
+
+    const tomorrow = new Date(today);
+    tomorrow.setUTCDate(today.getUTCDate() + 1); // Get start of the next day
+
+    // Fetch members whose dob is today
+    const birthday = await Members.find({
+      dob: { $gte: today, $lt: tomorrow },
+    });
+
+    // Fetch events where family_id matches one of the user's families
+    const familyIds = families.map(family => family._id);
+    const events = await Events.find({ family_id: { $in: familyIds } });
+    let data = {families, birthday, events}
+    return res.status(200).json({ data });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
     addChild,
     updateChild,
@@ -280,6 +315,7 @@ module.exports = {
     viewMember,
     addCoparent,
     listCp,
-    getMembers
+    getMembers,
+    getDashboard
 
 };
