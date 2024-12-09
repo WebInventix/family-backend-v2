@@ -171,10 +171,35 @@ const getById = async(req,res)=>{
     
   }
 }
+
+const deleteFamily = async (req, res) => {
+  const { id } = req.params; // Extract the Family ID from the URL
+
+  try {
+      if (!id) {
+          return res.status(400).json({ message: "Family ID is required" });
+      }
+
+      // Find and delete the Family by ID
+      const deletedFamily = await Families.findByIdAndDelete(id);
+
+      if (!deletedFamily) {
+          return res.status(404).json({ message: "Family not found" });
+      }
+
+      return res.status(200).json({ success: true, message: "Family deleted successfully" });
+  } catch (error) {
+      return res.status(500).json({ message: error.message });
+  }
+};
+
+
+
 module.exports = {
 addFamily,
 listFamilies,
 getFamily,
 getById,
-updateFamily
+updateFamily,
+deleteFamily
 };

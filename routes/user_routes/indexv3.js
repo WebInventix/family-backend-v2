@@ -33,7 +33,7 @@ router.get('/family-list', Family.listFamilies)
 router.get('/get-family', Family.getFamily)
 router.get('/family/:id', Family.getById)
 router.post('/update-family/:id', Family.updateFamily)
-
+router.delete('/delete-family/:id', Family.deleteFamily)
 //Events
 router.post('/add-event', addEvents)
 router.get('/list-events/:family_id', listEvents)
