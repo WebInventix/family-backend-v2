@@ -14,7 +14,36 @@ const addFamily = async (req,res) => {
     }
 
 }
+const updateFamily = async (req, res) => {
+  const { id } = req.params; // Assuming family_id is passed as a route parameter
+  const { body } = req; // The request body contains the fields to update
 
+  try {
+      // Find the family by its ID
+      const family = await Families.findById(id);
+
+      if (!family) {
+          return res.status(404).json({ message: "Family not found" });
+      }
+
+      // Update only the fields provided in the body
+      const updatedData = {
+          family_name: body.family_name || family.family_name,
+          co_parents: body.co_parents || family.co_parents,
+          relatives: body.relatives || family.relatives,
+          children: body.children || family.children,
+          color_code: body.color_code || family.color_code
+      };
+
+      // Update the family document
+      Object.assign(family, updatedData);
+      await family.save();
+
+      return res.json({ message: "Family updated successfully", data: family });
+  } catch (error) {
+      return res.status(500).json({ message: error.message });
+  }
+};
 const listFamilies = async (req, res) => {
     try {
       const families = await Families.find()
@@ -121,9 +150,31 @@ const listFamilies = async (req, res) => {
       });
     }
   };
+
+
+const getById = async(req,res)=>{
+  const {id} = req.params
+  try {
+    const family = await Families.findById(id).populate('created_by', 'first_name last_name email')
+    .populate('co_parents', '_id first_name last_name email user_id relation color_code')
+    .populate('relatives', '_id first_name last_name email user_id relation color_code')
+    .populate('children', '_id first_name last_name email user_id relation dob gender info additional_info color_code')
+    .lean();
+
+  return res.json({
+    message: 'Families fetched successfully',
+    data: family,
+  });
+    
+  } catch (error) {
+    return res.status(500).json({message:error.message})
+    
+  }
+}
 module.exports = {
 addFamily,
 listFamilies,
-getFamily
-
+getFamily,
+getById,
+updateFamily
 };

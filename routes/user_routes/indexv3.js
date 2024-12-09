@@ -31,7 +31,8 @@ router.get('/list-co-parent', UserController.listCp)
 router.post('/add-family', Family.addFamily)
 router.get('/family-list', Family.listFamilies)
 router.get('/get-family', Family.getFamily)
-
+router.get('/family/:id', Family.getById)
+router.post('/update-family/:id', Family.updateFamily)
 
 //Events
 router.post('/add-event', addEvents)
