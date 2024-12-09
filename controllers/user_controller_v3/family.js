@@ -60,14 +60,29 @@ const listFamilies = async (req, res) => {
 
   const getFamily = async (req, res) => {
     const { user_id } = req;
+    const {all} = req.query
   
     try {
+      if(all && all=="false")
+      {
+        let myFamily  = await Families.find({created_by:user_id}).populate('created_by', 'first_name last_name email')
+        .populate('co_parents', '_id first_name last_name email user_id relation color_code')
+        .populate('relatives', '_id first_name last_name email user_id relation color_code')
+        .populate('children', '_id first_name last_name email user_id relation dob gender info additional_info color_code')
+        .lean();
+        return res.json({
+          message: 'Families fetched successfully',
+          data: myFamily,
+        });
+      }
+  
       // Step 1: Find all member IDs associated with the user_id
       const members = await Members.find({ user_id }).lean();
   
       // Step 2: Extract the member IDs
       const memberIds = members.map(member => member._id);
-  
+      
+      
       // Step 3: Build the query
       let query = {};
   
