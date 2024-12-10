@@ -192,7 +192,7 @@ const addCoparent = async (req,res) => {
         relation:'Co-Parent'
       });
   
-      await relative.save();
+      await co_parent.save();
       
 
     }
