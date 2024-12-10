@@ -83,6 +83,10 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
         require:true,
         default:"No"
     },
+    color_code:{
+        type:String,
+        required:false,
+    }
 
           
 }, { timestamps: true }
