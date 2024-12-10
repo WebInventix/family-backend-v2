@@ -193,7 +193,9 @@ const addCoparent = async (req,res) => {
       });
   
       await co_parent.save();
-      
+      return res
+        .status(200)
+        .json({ message: "Co-Parent Added Successfully", co_parent: co_parent });
 
     }
     else
