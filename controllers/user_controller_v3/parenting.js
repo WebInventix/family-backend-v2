@@ -38,14 +38,11 @@ const {Families} = require("../../models/v3/families")
 const getParentingView = async (req, res) => {
     const { body, user_id } = req;
     const {
-        child_ids,
-        children_spend_the_night_with_the_creator,
-        exchange_day,
-        model_id,
-        starts_at,
-        ends_at,
-        co_parent,
-        family_id,
+        child_ids, children_spend_the_night_with_the_creator,
+        children_spend_the_weekend_with_the_creator,days,ends_at,
+        exchange_day,model_id,starts_at,the_creator_has_the_main_custody,
+        weekend_end_day,weekend_end_time,weekend_start_day,weekend_start_time,
+        co_parent,family_id
     } = body;
 
     try {
@@ -53,7 +50,7 @@ const getParentingView = async (req, res) => {
         const member = await Members.findOne({ added_by: user_id, user_id:co_parent });
         if(!member)
         {
-            return res.statu(400).json({message:"CoParent not found"})
+            return res.status(400).json({message:"CoParent not found"})
 
         }
 
@@ -64,8 +61,8 @@ const getParentingView = async (req, res) => {
 
         // Convert start and end dates to Date objects
         const startDate = new Date(starts_at);
-        const endDate = new Date(starts_at);
-        endDate.setDate(startDate.getDate() + 14);
+        const endDate = new Date(ends_at);
+        // endDate.setDate(startDate.getDate() + 14);
         if (isNaN(startDate) || isNaN(endDate)) {
             return res.status(400).json({ message: "Invalid start or end date" });
         }
@@ -108,7 +105,10 @@ const getParentingView = async (req, res) => {
                     currentDate.setDate(currentDate.getDate() + 1);
                 }
 
-                return res.status(200).json({data:schedule});
+                return res.status(200).json({data:schedule, body:body});
+        } else if (model_id == "2")
+        {
+            //code here chat gpt
         }
 
         return res.status(200).json({message:"working on different model"})
