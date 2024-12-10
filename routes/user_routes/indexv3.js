@@ -41,6 +41,10 @@ router.get('/event/:id', eventById)
 router.post('/update-event/:id', updateEvent)
 router.delete('/delete-event/:id', deleteEvent)
 
+//User 
+router.post('/user-edit/:id', UserController.userEdit)
+
+
 //Dashboard
 router.get('/get-dashboard', UserController.getDashboard)
 

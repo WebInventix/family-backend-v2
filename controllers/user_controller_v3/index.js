@@ -307,6 +307,62 @@ const getDashboard = async (req, res) => {
   }
 };
 
+
+const userEdit = async (req, res) => {
+  const { id } = req.params; // Assuming user_id is passed as a URL parameter
+  const {
+    first_name,
+    last_name,
+    email,
+    number,
+    address,
+    gender,
+    dob,
+    user_profile,
+    public_info,
+    color_code,
+  } = req.body; // Destructuring the request body
+
+  try {
+    // Find the user by ID and update
+    const updatedUser = await User_Auth_Schema.findByIdAndUpdate(
+      id,
+      {
+        first_name,
+        last_name,
+        email,
+        number,
+        address,
+        gender,
+        dob,
+        user_profile,
+        public_info,
+        color_code,
+      },
+      { new: true, runValidators: true } // Return the updated document and run validators
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
     addChild,
     updateChild,
@@ -318,6 +374,7 @@ module.exports = {
     addCoparent,
     listCp,
     getMembers,
-    getDashboard
+    getDashboard,
+    userEdit
 
 };
