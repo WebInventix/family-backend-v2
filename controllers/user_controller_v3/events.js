@@ -111,10 +111,12 @@ const deleteEvent = async (req, res) => {
     const { id } = req.params; // Extract the event ID from the URL
 
     try {
+        
         if (!id) {
             return res.status(400).json({ message: "Event ID is required" });
         }
-
+        let cuEvent = await Events.findById(id);
+        let fmId = cuEvent.family_id
         // Find and delete the event by ID
         const deletedEvent = await Events.findByIdAndDelete(id);
 
@@ -122,7 +124,8 @@ const deleteEvent = async (req, res) => {
             return res.status(404).json({ message: "Event not found" });
         }
 
-        return res.status(200).json({ success: true, message: "Event deleted successfully" });
+        let allEvents = await Events.find({family_id:fmId}).populate('user_id').populate('children').populate('relative').populate('family_id')
+        return res.status(200).json({ success: true, message: "Event deleted successfully", events:allEvents });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }
