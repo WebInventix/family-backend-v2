@@ -37,7 +37,7 @@ const {Parentingv3} = require("../../models/v3/parenting")
 
 
 const getParentingView = async (req, res) => {
-    const { body, user_id } = req;
+    const { body, user_id, user_data } = req;
     const {
         child_ids, children_spend_the_night_with_the_creator,
         children_spend_the_weekend_with_the_creator,days,ends_at,
@@ -89,7 +89,7 @@ const getParentingView = async (req, res) => {
                 while (currentDate <= endDate) {
                     schedule.push({
                         date: currentDate.toISOString().split("T")[0], // Format date as YYYY-MM-DD
-                        role: currentRole,
+                        role: currentRole == "Parent" ? currentRole+`-${user_data.first_name}`:currentRole+`-${member.first_name}`,
                         id: currentId,
                         color_code: currentColor
                     });
@@ -152,7 +152,7 @@ const getParentingView = async (req, res) => {
         
                 schedule.push({
                     date: currentDate.toISOString().split("T")[0],
-                    role: currentRole,
+                    role: currentRole == "Parent" ? currentRole+`-${user_data.first_name}`:currentRole+`-${member.first_name}`,
                     id: currentId,
                     color_code: currentColor
                 });

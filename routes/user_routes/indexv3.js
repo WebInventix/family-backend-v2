@@ -49,7 +49,7 @@ router.get('/parenting/:id', Parenting.getParentingById);
 router.put('/parenting/:id', Parenting.updateParenting);
 router.delete('/parenting/:id', Parenting.deleteParenting);
 router.get('/parentig-family/:family_id', Parenting.getAllParentingByFamily)
-
+//https://chatgpt.com/c/67589b8e-f388-8006-ab3b-042d8d00da93
 //User 
 router.post('/user-edit/:id', UserController.userEdit)
 
