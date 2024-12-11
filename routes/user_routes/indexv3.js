@@ -5,6 +5,7 @@ const Family  = require('../../controllers/user_controller_v3/family')
 const {addEvents, eventById,listEvents, updateEvent, deleteEvent} = require('../../controllers/user_controller_v3/events')
 const Parenting = require('../../controllers/user_controller_v3/parenting')
 const Calender = require('../../controllers/user_controller_v3/calendar')
+const Files = require('../../controllers/user_controller_v3/fileStorage')
 const router = express.Router();
 
 //Member View
@@ -58,7 +59,10 @@ router.post('/user-edit/:id', UserController.userEdit)
 //calender
 router.get('/calender/:family_id', Calender.getCalendar)
 
-
+//File Storage
+router.post('/add-file', Files.addFile)
+router.delete('/delete-file/:file_id', Files.deleteFile)
+router.get('/get-files/:family_id', Files.fileListintByFamily)
 //Dashboard
 router.get('/get-dashboard', UserController.getDashboard)
 
