@@ -75,7 +75,7 @@ const Parentingv3 = mongoose.model('parentingv3', new Schema({
   },
   co_parent:{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'members',
+    ref: 'user',
   },
   user_id:{
     type: mongoose.Schema.Types.ObjectId,
