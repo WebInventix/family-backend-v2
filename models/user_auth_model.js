@@ -69,7 +69,7 @@ const User_Auth_Schema = mongoose.model('user', new Schema({
         default:"In-Complete"
     },
     public_info:{
-        type: Boolean,
+        type: String,
         default:false
     },
     user_profile:{
