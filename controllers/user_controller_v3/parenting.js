@@ -219,6 +219,25 @@ const getAllParenting = async (req, res) => {
     }
   };
 
+
+  const getAllParentingByFamily = async (req, res) => {
+    const {family_id} = req.params
+    try {
+      const parentingRecords = await Parentingv3.find({ family_id: family_id }).populate('child_ids').populate('co_parent').populate('family_id');
+      res.status(200).json({
+        success: true,
+        message: 'Parenting records retrieved successfully',
+        data: parentingRecords,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error retrieving parenting records',
+        error: error.message,
+      });
+    }
+  };
+
 // Get a single Parenting record by ID
 const getParentingById = async (req, res) => {
     try {
@@ -311,4 +330,5 @@ module.exports = {
     getParentingById,
     updateParenting,
     deleteParenting,
+    getAllParentingByFamily
 };

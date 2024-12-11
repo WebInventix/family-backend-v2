@@ -48,6 +48,7 @@ router.get('/parenting', Parenting.getAllParenting);
 router.get('/parenting/:id', Parenting.getParentingById);
 router.put('/parenting/:id', Parenting.updateParenting);
 router.delete('/parenting/:id', Parenting.deleteParenting);
+router.get('/parentig-family/:family_id', Parenting.getAllParentingByFamily)
 
 //User 
 router.post('/user-edit/:id', UserController.userEdit)
