@@ -1,6 +1,7 @@
 const { User_Auth_Schema } = require("../../models/user_auth_model");
 const {Members} = require("../../models/v3/members")
 const {Families} = require("../../models/v3/families")
+const {Parentingv3} = require("../../models/v3/parenting")
 
 // const getParentingView = async (req,res) => {
 //     const {body,user_id,user_data} = req
@@ -118,7 +119,7 @@ const getParentingView = async (req, res) => {
             // Helper function to check if a day is part of the weekend
             const isWeekend = (date) => {
                 const dayOfWeek = date.getDay();
-                console.log(weekendStartDay,weekendEndDay,dayOfWeek)
+                
                 if (weekendStartDay < weekendEndDay) {
                     return dayOfWeek >= weekendStartDay && dayOfWeek <= weekendEndDay;
                 }
@@ -177,6 +178,137 @@ const getParentingView = async (req, res) => {
 };
 
 
+
+
+// Create a new Parenting record
+const createParenting = async (req, res) => {
+    const { user_id } = req; // Assuming user_id is coming from auth middleware or session
+    try {
+      const parentingData = { ...req.body, user_id }; // Append user_id to the request body
+      const newParenting = new Parentingv3(parentingData);
+      await newParenting.save();
+      res.status(201).json({
+        success: true,
+        message: 'Parenting record created successfully',
+        data: newParenting,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error creating parenting record',
+        error: error.message,
+      });
+    }
+  };
+
+// Get all Parenting records
+const getAllParenting = async (req, res) => {
+    try {
+      const parentingRecords = await Parentingv3.find({ user_id: req.user_id }).populate('child_ids').populate('co_parent').populate('family_id');
+      res.status(200).json({
+        success: true,
+        message: 'Parenting records retrieved successfully',
+        data: parentingRecords,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error retrieving parenting records',
+        error: error.message,
+      });
+    }
+  };
+
+// Get a single Parenting record by ID
+const getParentingById = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const parentingRecord = await Parentingv3.findOne({ _id: id, user_id: req.user_id }).populate('child_ids').populate('co_parent').populate('family_id');
+      if (!parentingRecord) {
+        return res.status(404).json({
+          success: false,
+          message: 'Parenting record not found',
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Parenting record retrieved successfully',
+        data: parentingRecord,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error retrieving parenting record',
+        error: error.message,
+      });
+    }
+  };
+
+// Update a Parenting record
+const updateParenting = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updatedData = req.body;
+      const updatedParenting = await Parentingv3.findOneAndUpdate(
+        { _id: id, user_id: req.user_id },
+        updatedData,
+        { new: true }
+      );
+      if (!updatedParenting) {
+        return res.status(404).json({
+          success: false,
+          message: 'Parenting record not found',
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Parenting record updated successfully',
+        data: updatedParenting,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error updating parenting record',
+        error: error.message,
+      });
+    }
+  };
+
+// Delete a Parenting record
+const deleteParenting = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deletedParenting = await Parentingv3.findOneAndDelete({ _id: id, user_id: req.user_id });
+      if (!deletedParenting) {
+        return res.status(404).json({
+          success: false,
+          message: 'Parenting record not found',
+        });
+      }
+      res.status(200).json({
+        success: true,
+        message: 'Parenting record deleted successfully',
+        data: deletedParenting,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error deleting parenting record',
+        error: error.message,
+      });
+    }
+  };
+
+
+
+
+
+
 module.exports = {
-    getParentingView
+    getParentingView,
+    createParenting,
+    getAllParenting,
+    getParentingById,
+    updateParenting,
+    deleteParenting,
 };

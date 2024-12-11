@@ -43,6 +43,11 @@ router.delete('/delete-event/:id', deleteEvent)
 
 //Parenting
 router.post('/get-schedule' , Parenting.getParentingView)
+router.post('/parenting', Parenting.createParenting);
+router.get('/parenting', Parenting.getAllParenting);
+router.get('/parenting/:id', Parenting.getParentingById);
+router.put('/parenting/:id', Parenting.updateParenting);
+router.delete('/parenting/:id', Parenting.deleteParenting);
 
 //User 
 router.post('/user-edit/:id', UserController.userEdit)
