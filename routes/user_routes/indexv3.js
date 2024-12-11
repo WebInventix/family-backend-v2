@@ -4,6 +4,7 @@ const UserController = require('../../controllers/user_controller_v3/index')
 const Family  = require('../../controllers/user_controller_v3/family')
 const {addEvents, eventById,listEvents, updateEvent, deleteEvent} = require('../../controllers/user_controller_v3/events')
 const Parenting = require('../../controllers/user_controller_v3/parenting')
+const Calender = require('../../controllers/user_controller_v3/calendar')
 const router = express.Router();
 
 //Member View
@@ -52,6 +53,11 @@ router.get('/parentig-family/:family_id', Parenting.getAllParentingByFamily)
 //https://chatgpt.com/c/67589b8e-f388-8006-ab3b-042d8d00da93
 //User 
 router.post('/user-edit/:id', UserController.userEdit)
+
+
+//calender
+router.get('/calender/:family_id', Calender.getCalendar)
+
 
 //Dashboard
 router.get('/get-dashboard', UserController.getDashboard)
