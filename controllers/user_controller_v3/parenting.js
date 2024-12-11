@@ -89,9 +89,10 @@ const getParentingView = async (req, res) => {
                 while (currentDate <= endDate) {
                     schedule.push({
                         date: currentDate.toISOString().split("T")[0], // Format date as YYYY-MM-DD
-                        role: currentRole == "Parent" ? currentRole+`-${user_data.first_name}`:currentRole+`-${member.first_name}`,
+                        role: currentRole,
                         id: currentId,
-                        color_code: currentColor
+                        color_code: currentColor,
+                        name: currentRole == "Parent" ? user_data.first_name+' '+user_data.last_name : member.first_name+' '+member.last_name,
                     });
 
                     // Check if it's exchange day
@@ -152,9 +153,10 @@ const getParentingView = async (req, res) => {
         
                 schedule.push({
                     date: currentDate.toISOString().split("T")[0],
-                    role: currentRole == "Parent" ? currentRole+`-${user_data.first_name}`:currentRole+`-${member.first_name}`,
+                    role: currentRole,
                     id: currentId,
-                    color_code: currentColor
+                    color_code: currentColor,
+                    name: currentRole == "Parent" ? user_data.first_name+' '+user_data.last_name : member.first_name+' '+member.last_name,
                 });
         
                 // If it's the last day of the weekend, alternate the weekend ownership
